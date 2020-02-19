@@ -1,15 +1,12 @@
 import React from 'react';
 import { Text, View ,FlatList,StyleSheet} from 'react-native';
-import {SearchBar} from 'react-native-elements';
 import db from '../config.js'
 
 export default class Searchscreen extends React.Component {
   constructor(){
     super();
     this.state ={
-      allTransactions:[],
-      search: "",
-      transactions: []
+      allTransactions:[]
     }
   }
 
@@ -17,21 +14,7 @@ export default class Searchscreen extends React.Component {
     this.retriveTransactions()
   }
 
-  SearchFilterFunction(text) {
-    //passing the inserted text in textinput
-    const newData = this.state.allTransactions.filter((item)=> {
-      //applying filter for the inserted text in search bar
-      const itemData = item.transactionType ? item.transactionType.toUpperCase() : ''.toUpperCase();
-      const textData = text.toUpperCase();
-      return itemData.indexOf(textData) > -1;
-    });
-    this.setState({
-      //setting the filtered newData on datasource
-      //After setting the data it will automatically re-render the view
-      transactions: newData,
-      search: text,
-    });
-  }
+  
 
   retriveTransactions=()=>{
     try {
@@ -55,15 +38,6 @@ export default class Searchscreen extends React.Component {
     render() {
       return (
         <View>
-           <View styles ={{height:20,width:'100%'}}>
-              <SearchBar
-              placeholder="Type Here..."
-              onChangeText={text => this.SearchFilterFunction(text)}
-              onClear={text => this.SearchFilterFunction('')}
-              value={this.state.search}
-            />
-          </View>
-
          <FlatList
                 data={this.state.allTransactions}
                 renderItem={({ item }) => (
